@@ -14,15 +14,15 @@ A *provisioned product* represents a [CloudFormation stack](https://docs.aws.ama
 
 When an end user with permission to launch and manage products logs into AWS and navigates to the ```Service Catalog``` web page, they will see all of their available products.
 
-![Service Catalog Products](./images/2023-04-04-14-07-08.png)
+![Service Catalog Products](./images/2023-06-22-14-48-15.png)
 
 From here, you can click on the product you wish to provision and choose ```Launch Product```.  
 
-![Launch Product](./images/2023-04-04-14-08-48.png)
+![Launch Product](./images/2023-06-22-14-50-05.png)
 
 You will be presented with a page that allows you to enter a name for your provisioned product, the version you would like to provision and enter parameters.
 
-![Provisioning a product](./images/2023-04-04-14-26-55.png)
+![Provisioning a product](./images/2023-06-22-14-51-55.png)
 
 The ```Parameters``` are defined by the [Parameters section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) in the CloudFormation template that defines your product.
 
@@ -30,7 +30,7 @@ The [AWS::CloudFormation::Interface](https://docs.aws.amazon.com/AWSCloudFormati
 
 You can see a summary of resources being created by looking at the ```Resources``` tab.
 
-![Provisioning Resources](./images/2023-04-04-14-30-18.png)
+![Provisioning Resources](./images/2023-06-22-14-53-49.png)
 
 ### Updating a product
 
@@ -38,19 +38,16 @@ There are times that you may need to update an existing provisioned product eith
 
 And then choosing ```Update Product``` from the ```Action``` menu.
 
-![](2023-04-04-15-08-22.png)
 
 Once you choose to ```Update Product``` you are given the option to change the Parameter values and then chooose ```Update```. This will update the underlying CloudFormation stack.
 
-![Update Product](./images/2023-04-04-15-11-21.png)
+![Update Product](./images/2023-06-22-14-55-02.png)
 
 ### Terminating a product
 
 Terminating a product will delete the provisioned product by deleting the corresponding CloudFormation stack.
 
-![Terminating a product](./images/2023-04-04-15-13-30.png)
-
 Once you click on terminate, you must confirm that you really want to remove the provisioned products and the underlying resources you created.
 
-![Confirming termination](./images/2023-04-04-15-15-05.png)
+
 

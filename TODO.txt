@@ -1,6 +1,0 @@
-# TODO
-
-1. Convert tags to environment variables in CodeBuild
-2. Add a tag section to POC pipeline
-3. Proofread README
-
