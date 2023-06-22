@@ -1,0 +1,48 @@
+Transform: AWS::Serverless-2016-10-31
+Description: > 
+  Creates a CloudFormation custom resource used to retrieve VPC's in an account based on a tag
+
+
+Globals:
+  Function:
+    Runtime: python3.7
+    Timeout: 180
+    Handler: index.lambda_handler
+
+Parameters:
+  Nonce:
+    Type: String
+    Description: Forces custom resource to run everytime CF runs -- pass in a $RANDOM as a parameter
+
+Resources:
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: lmd-csr-get-vpc-by-tag
+      Description: CloudFormation custom resource to return VPCs based on a list of tags.
+      CodeUri: ./src
+      Layers:
+        - !ImportValue CustomResourceLambdaLayer
+      Policies:
+      - Statement:
+          - Effect: Allow
+            Action:
+            - 'ec2:DescribeVpcs'
+            Resource: '*'
+
+  AttachLayer:
+    Type: Custom::LayerAttachment
+    Properties:
+      LayerName: lyr-csr-common
+      LambdaName: !Ref LambdaFunction
+      #CloudFormation will not execute the custom resource if no properties are changed.
+      #Along with the parameter, this ensures that the resource is called each time CloudFormation runs
+      Nonce: !Ref Nonce
+      ServiceToken: !ImportValue CFNAttachLambdaLayer
+
+Outputs:
+  LambdaFunctionArn:
+    Description: "Custom Resource that returns a list of subnets based on a tag"
+    Value: !GetAtt LambdaFunction.Arn
+    Export:
+      Name: CFNGetVpcsByTag

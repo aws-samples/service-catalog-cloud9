@@ -1,0 +1,108 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS Cloud9 Environment
+
+Parameters:
+  Cloud9InstanceType:
+    AllowedValues:
+      - t2.medium
+      - t2.large
+      - t2.xlarge
+      - t2.2xlarge
+    Default: t2.medium
+    Description: EC2 instance type on which IDE runs
+    Type: String
+  VolumeSize:
+    Type: Number
+    Description: The desired size of storage attached to the Cloud 9 instance
+    Default: 15
+
+Resources:
+  Cloud9VolumeResize:
+    Type: 'AWS::CloudFormation::CustomResource'
+    Properties: 
+      ServiceToken:
+        Fn::ImportValue: CFNResizeCloud9Volume
+      EnvironmentId: !Ref Cloud9Instance
+      VolumeSize: !Ref VolumeSize
+  Cloud9Instance:
+    Type: 'AWS::Cloud9::EnvironmentEC2'
+    Properties:
+      AutomaticStopTimeMinutes: 30
+      ConnectionType: CONNECT_SSH
+      Description:
+        Fn::Sub: '${Cloud9User.Id} Cloud9 IDE'
+      InstanceType:
+        Ref: Cloud9InstanceType
+      Name:
+        'Fn::Sub': '${Cloud9User.Id}-Cloud9-IDE'
+      OwnerArn:
+        'Fn::GetAtt':
+          - Cloud9User
+          - Arn
+      SubnetId:
+        'Fn::Select':
+          - '0'
+          - 'Fn::GetAtt':
+              - Cloud9Subnets
+              - Subnets
+      ImageId: "amazonlinux-2-x86_64"
+  GetCloud9Properties:
+    Type: AWS::CloudFormation::CustomResource
+    Version: 1
+    Properties:
+      EnvironmentId:
+        Ref: Cloud9Instance
+      ServiceToken:
+        Fn::ImportValue: CFNGetCloud9Properties
+      StackId:
+        Ref: 'AWS::StackId'
+
+  WaitForCloudTrailEvent:
+    Type: 'AWS::CloudFormation::CustomResource'
+    Properties:
+      ServiceToken: !ImportValue CFNSleep
+      SleepSeconds: 30
+  Cloud9User:
+    Type: AWS::CloudFormation::CustomResource
+    Version: 1
+    DependsOn: WaitForCloudTrailEvent
+    Properties:
+      ServiceToken:
+        Fn::ImportValue: CFNGetStackCreator
+      StackId:
+        Ref: 'AWS::StackId'
+  Cloud9Subnets:
+    Type: 'AWS::CloudFormation::CustomResource'
+    Version: 1
+    Properties:
+      ServiceToken:
+        Fn::ImportValue: CFNGetSubnetsByTag
+      Tags:
+        - Key: Cloud9
+          Value: "True"
+      VpcId:
+        Fn::Select:
+          - 0
+          - Fn::GetAtt:
+              - Cloud9Vpc
+              - VpcIds
+  Cloud9Vpc:
+    Type: 'AWS::CloudFormation::CustomResource'
+    DependsOn: WaitForCloudTrailEvent
+    Version: 1
+    Properties:
+      ServiceToken:
+        Fn::ImportValue: CFNGetVpcsByTag
+      Tags:
+        - Key: Cloud9
+          Value: "True"
+
+
+Outputs:
+  Cloud9URL:
+    Description: Cloud9 Environment
+    Value:
+      'Fn::Join':
+        - ''
+        - - 'Fn::Sub': 'https://${AWS::Region}.console.aws.amazon.com/cloud9/ide/'
+          - Ref: Cloud9Instance

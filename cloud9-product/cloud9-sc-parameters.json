@@ -1,0 +1,58 @@
+
+{
+    "Configuration":[
+    {
+        "Key": "PortfolioId",
+        "Value": "${CF_OUT_ServiceCatalogPortfolio}",
+        "ParameterGroup":"ServiceCatalog"
+    },
+    {
+        "Key": "ProductName",
+        "SCProductDescription":"${SCProductDescription}",
+        "Value":"${ProductName}",
+        "Default": "Deploy an AWS Cloud9 environment",
+        "ParameterGroup":"ServiceCatalog"
+    },
+    {
+        "Key": "ProductOwner",
+        "Value": "${ProductOwner}",
+        "Default":"ACME Co.",
+        "ParameterGroup":"ServiceCatalog"
+
+    },
+    {
+        "Key":"ProductDescription",
+        "Value":"${ProductDescription}",
+        "Default":"Deploy an AWS Cloud9 environment",
+        "ParameterGroup":"ServiceCatalog"
+    },
+    {
+        "Key":"ProductUrl",
+        "Value":"${ProductUrl}",
+        "ParameterGroup":"ServiceCatalog"
+    },
+    {
+        "Key":"ProvisioningArtifactDescriptionParameter",
+        "Value":"${ProvisioningArtifactDescriptionParameter}",
+        "Default":"Cloud9",
+        "ParameterGroup":"ServiceCatalog"
+    },
+    {
+        "Key":"VersionDescription",
+        "Value":"${VersionDescription}",
+        "ParameterGroup":"ServiceCatalog"       
+    },
+    {
+        "Key":"AddLaunchRoleConstraint",
+        "Value":"False",
+        "ParameterGroup":"ServiceCatalog"       
+    },
+    {
+        "Key":"ServiceCatalogRoleName",
+        "Value":"${ServiceCatalogRoleName}",
+        "ParameterGroup":"ServiceCatalog"       
+    }
+
+
+]
+}

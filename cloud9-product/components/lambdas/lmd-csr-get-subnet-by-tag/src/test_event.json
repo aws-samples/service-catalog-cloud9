@@ -1,0 +1,15 @@
+{
+    "RequestType": "Create",
+    "ServiceToken": "arn:aws:lambda:us-east-1:11111111:function:lmd-csr-get-subnet-by-tag",
+    "ResponseURL": "jjjjjj",
+    "StackId": "arn:aws:cloudformation:us-east-1:11111111:stack/SC-11111111-pp-y4ncv626wdgda/d10512a0-a77b-11ed-b546-0e69374a54e3",
+    "RequestId": "e26460ea-1c49-4170-a2af-6221816351c6",
+    "LogicalResourceId": "Cloud9Subnets",
+    "ResourceType": "AWS::CloudFormation::CustomResource",
+    "ResourceProperties": {
+        "ServiceToken": "arn:aws:lambda:us-east-1:11111111:function:lmd-csr-get-subnet-by-tag",
+        "VpcId": "vpc-07721632c103cf755",
+        "TagKey": "infra_cloud9",
+        "TagValue": "true"
+    }
+}

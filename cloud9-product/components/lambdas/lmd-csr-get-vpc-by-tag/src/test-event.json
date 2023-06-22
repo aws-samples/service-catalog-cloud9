@@ -1,0 +1,14 @@
+{
+    "RequestType": "Create",
+    "ServiceToken": "arn:aws:lambda:us-east-1:11111111:function:lmd-csr-get-vpc-by-tag",
+    "ResponseURL": "ujuuuuuu",
+    "StackId": "arn:aws:cloudformation:us-east-1:11111111:stack/SC-11111111-pp-a7jijepvhvgfw/e4bce820-a76e-11ed-8dac-0eb6d9128325",
+    "RequestId": "8720e32e-0c34-4af2-a1ee-da085ea4493a",
+    "LogicalResourceId": "Cloud9Vpc",
+    "ResourceType": "AWS::CloudFormation::CustomResource",
+    "ResourceProperties": {
+        "ServiceToken": "arn:aws:lambda:us-east-1:11111111:function:lmd-csr-get-vpc-by-tag",
+        "TagKey": "cloud9",
+        "TagValue": "true"
+    }
+}

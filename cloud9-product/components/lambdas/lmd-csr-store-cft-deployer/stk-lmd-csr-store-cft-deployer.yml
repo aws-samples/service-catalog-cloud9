@@ -1,0 +1,57 @@
+Transform: AWS::Serverless-2016-10-31
+Description: > 
+    Lambda function and supporting resources to capture the user who deployed
+    a CloudFormation stack.
+
+Globals:
+  Function:
+    Runtime: python3.7
+    Timeout: 180
+    Handler: index.lambda_handler
+    
+Parameters:
+  Nonce:
+    Type: String
+    Description: Forces custom resource to run everytime CF runs -- pass in a $RANDOM as a parameter
+
+
+Resources:
+  AttachLayer:
+    Type: Custom::LayerAttachment
+    Properties:
+      LayerName: lyr-csr-common
+      LambdaName: !Ref LambdaFunction
+      #CloudFormation will not execute the custom resource if no properties are changed.
+      #Along with the parameter, this ensures that the resource is called each time CloudFormation runs
+      Nonce: !Ref Nonce
+      ServiceToken: !ImportValue CFNAttachLambdaLayer
+      
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: lmd-csr-store-cft-deployer
+      CodeUri: ./src
+      Policies:
+      - DynamoDBWritePolicy:
+          TableName: !Ref TrackingTable
+      Events:
+        Trigger:
+          Type: CloudWatchEvent
+          Properties:
+            Pattern:
+              source:
+                - aws.cloudformation
+              detail-type:
+                - AWS API Call via CloudTrail
+              detail:
+                eventSource:
+                  - cloudformation.amazonaws.com
+                eventName:
+                  - CreateStack
+  TrackingTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: CFStackid
+        Type: String
+      TableName: sc-track-user

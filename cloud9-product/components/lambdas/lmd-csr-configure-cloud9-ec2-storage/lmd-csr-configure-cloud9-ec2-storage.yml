@@ -1,0 +1,52 @@
+Transform: AWS::Serverless-2016-10-31
+Description: > 
+  Creates a CloudFormation custom resource used to retrieve properties of a Cloud9 instance.
+
+Globals:
+  Function:
+    Runtime: python3.7
+    Timeout: 180
+    Handler: index.lambda_handler
+
+Parameters:
+  Nonce:
+    Type: String
+    Description: Forces custom resource to run everytime CF runs -- pass in a $RANDOM as a parameter
+
+Resources:
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: lmd-csr-resize-cloud9-ec2-storage
+      CodeUri: ./src
+      Policies:
+      - AmazonEC2ReadOnlyAccess
+      - AWSCloud9Administrator
+      - Statement:
+        - Effect: Allow
+          Action:
+          - cloudformation:DescribeStackResource
+          - cloud9:DescribeEnvironments
+          Resource: '*'
+        - Effect: Allow
+          Action: 
+          - ec2:RebootInstances
+          - ec2:ModifyVolume
+          - ec2:DescribeVolumes
+          Resource: "*"
+  AttachLayer:
+    Type: Custom::LayerAttachment
+    Properties:
+      LayerName: lyr-csr-common
+      LambdaName: !Ref LambdaFunction
+      #CloudFormation will not execute the custom resource if no properties are changed.
+      #Along with the parameter, this ensures that the resource is called each time CloudFormation runs
+      Nonce: !Ref Nonce
+      ServiceToken: !ImportValue CFNAttachLambdaLayer
+      
+Outputs:
+  LambdaFunctionArn:
+    Description: "Custom Resource that returns a list of security groups based on a tag"
+    Value: !GetAtt LambdaFunction.Arn
+    Export:
+      Name: CFNResizeCloud9Volume

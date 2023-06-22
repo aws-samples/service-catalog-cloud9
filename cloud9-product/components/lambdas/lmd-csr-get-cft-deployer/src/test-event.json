@@ -1,0 +1,13 @@
+{
+    "RequestType": "Create",
+    "ServiceToken": "arn:aws:lambda:us-east-1:11111111:function:lmd-csr-get-cft-deployer",
+    "ResponseURL": "gggg",
+    "StackId": "arn:aws:cloudformation:us-east-1:1111111:stack/SC-1111111-pp-kdrkcmfsauj62/2978b500-a767-11ed-bac0-12484d2aa231",
+    "RequestId": "c7ee74d6-0260-4358-b321-acc0302dbf04",
+    "LogicalResourceId": "CFUser",
+    "ResourceType": "Custom::CFGetUser",
+    "ResourceProperties": {
+      "ServiceToken": "arn:aws:lambda:us-east-1:1111111:function:lmd-csr-get-cft-deployer",
+      "StackId": "arn:aws:cloudformation:us-east-1:11111111:stack/SC-1111111-pp-kdrkcmfsauj62/2978b500-a767-11ed-bac0-12484d2aa231"
+    }
+  }
