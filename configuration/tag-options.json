@@ -1,32 +1,26 @@
 {
     "DefaultParameterGroup": "Tags",
     "Configuration": [
-
         {
-            "Key": "EnvironmentRepository",
-            "Value": "${EnvironmentRepository}",
-            "Default": "ACME Corp"
-        },
-        {
-            "Key": "Application",
+            "Key": "App",
             "Value": "${Application}",
-            "Default": "AAAA",
+            "Default": "Cloud9",
             "Description": "The name of the application"
         },
         {
             "Key": "Owner",
-            "Value": "${Application}",
-            "Default": "BBBB",
+            "Value": "${Owner}",
+            "Default": "AWS-Samples",
             "Description": "The owner of the product (Free Text)",
             "CreateTagOption":false
         },
         {
-            "Key": "CostCenter",
+            "Key": "CostCtrr",
             "Value": "${CostCenter}",
             "Default": "001"
         },
         {
-            "Key": "Environment",
+            "Key": "Env",
             "Value": "${Environment}",
             "Default": "DEV",
             "AllowedValues": [

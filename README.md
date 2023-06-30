@@ -18,11 +18,9 @@ AWS Service Catalog lets you centrally manage your cloud resources to achieve go
 
 
 
-
-
-
-
 ## Architecture
+
+![Cloud9](./images/Cloud9.png)
 
 ### Assigning the Cloud 9 environment to the logged in user
 
